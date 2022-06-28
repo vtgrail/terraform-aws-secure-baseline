@@ -7,7 +7,7 @@ resource "aws_glue_data_catalog_encryption_settings" "this" {
 
     encryption_at_rest {
       catalog_encryption_mode = "SSE-KMS"
-      se_aws_kms_key_id       = "alias/aws/glue"
+      sse_aws_kms_key_id       = "alias/aws/glue"
     }
   }
 }
