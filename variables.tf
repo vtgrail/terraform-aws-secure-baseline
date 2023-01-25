@@ -648,3 +648,12 @@ variable "analyzer_name" {
   type        = string
   default     = "default-analyzer"
 }
+
+# --------------------------------------------------------------------------------------------------
+# Variables for glue-baseline module.
+# --------------------------------------------------------------------------------------------------
+variable "glue_unmanaged_regions" {
+  description = "List of regions, where glue baseline is not managed"
+  type        = list(string)
+  default     = []
+}
