@@ -395,24 +395,6 @@ variable "cloudtrail_s3_key_prefix" {
   default     = "cloudtrail"
 }
 
-variable "cloudtrail_s3_object_level_logging_buckets" {
-  description = "The list of S3 bucket ARNs on which to enable object-level logging."
-  type        = list(string)
-  default     = ["arn:aws:s3:::"] # All S3 buckets
-}
-
-variable "cloudtrail_dynamodb_event_logging_tables" {
-  description = "The list of DynamoDB table ARNs on which to enable event logging."
-  type        = list(string)
-  default     = ["arn:aws:dynamodb"] # All DynamoDB tables
-}
-
-variable "cloudtrail_lambda_invocation_logging_lambdas" {
-  description = "The list of lambda ARNs on which to enable invocation logging."
-  type        = list(string)
-  default     = ["arn:aws:lambda"] # All lambdas
-}
-
 variable "cloudtrail_event_selector_data_resources" {
   description = "List of configuration blocks for data events."
   type = list(object({

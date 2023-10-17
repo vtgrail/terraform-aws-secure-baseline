@@ -81,9 +81,6 @@ module "cloudtrail_baseline" {
   region                                          = var.region
   s3_bucket_name                                  = local.audit_log_bucket_id
   s3_key_prefix                                   = var.cloudtrail_s3_key_prefix
-  s3_object_level_logging_buckets                 = var.cloudtrail_s3_object_level_logging_buckets
-  dynamodb_event_logging_tables                   = var.cloudtrail_dynamodb_event_logging_tables
-  lambda_invocation_logging_lambdas               = var.cloudtrail_lambda_invocation_logging_lambdas
   event_selector_data_resources                   = var.cloudtrail_event_selector_data_resources
   event_selector_exclude_management_event_sources = var.cloudtrail_event_selector_exclude_management_event_sources
   event_selector_include_management_events        = var.cloudtrail_event_selector_include_management_events
