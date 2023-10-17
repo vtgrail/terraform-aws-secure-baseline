@@ -413,6 +413,46 @@ variable "cloudtrail_lambda_invocation_logging_lambdas" {
   default     = ["arn:aws:lambda"] # All lambdas
 }
 
+variable "cloudtrail_event_selector_data_resources" {
+  description = "List of configuration blocks for data events."
+  type = list(object({
+    data_resource_type   = string       # Resource type in which you want to log data events. You can specify only the following value: "AWS::S3::Object", "AWS::Lambda::Function" and "AWS::DynamoDB::Table"
+    data_resource_values = list(string) # List of ARN strings or partial ARN strings to specify selectors for data audit events over data resources. ARN list is specific to single-valued type. For example, arn:aws:s3:::<bucket name>/ for all objects in a bucket, arn:aws:s3:::<bucket name>/key for specific objects, arn:aws:lambda for all lambda events within an account, arn:aws:lambda:<region>:<account number>:function:<function name> for a specific Lambda function, arn:aws:dynamodb for all DDB events for all tables within an account, or arn:aws:dynamodb:<region>:<account number>:table/<table name> for a specific DynamoDB table.
+  }))
+
+  default = [
+    {
+      data_resource_type   = "AWS::S3::Object"
+      data_resource_values = ["arn:aws:s3:::"] # All S3 buckets
+    },
+    {
+      data_resource_type   = "AWS::DynamoDB::Table"
+      data_resource_values = ["arn:aws:dynamodb"] # All DynamoDB tables
+    },
+    {
+      data_resource_type   = "AWS::Lambda::Function"
+      data_resource_values = ["arn:aws:lambda"] # All lambdas
+    },
+  ]
+}
+
+variable "cloudtrail_event_selector_exclude_management_event_sources" {
+  description = "A set of event sources to exclude. Valid values include: kms.amazonaws.com and rdsdata.amazonaws.com. include_management_events must be set to true to allow this."
+  type        = set(string)
+  default     = null
+}
+
+variable "cloudtrail_event_selector_include_management_events" {
+  description = "Whether to include management events for your trail. Defaults to true."
+  type        = bool
+  default     = true
+}
+
+variable "cloudtrail_event_selector_read_write_type" {
+  description = "Type of events to log. Valid values are ReadOnly, WriteOnly, All. Default value is All"
+  type        = string
+  default     = "All"
+}
 # --------------------------------------------------------------------------------------------------
 # Variables for alarm-baseline module.
 # --------------------------------------------------------------------------------------------------
