@@ -243,27 +243,17 @@ resource "aws_cloudtrail" "global" {
   sns_topic_name                = var.cloudtrail_sns_topic_enabled ? aws_sns_topic.cloudtrail-sns-topic[0].arn : null
 
   event_selector {
-    read_write_type           = "All"
-    include_management_events = true
+    exclude_management_event_sources = var.event_selector_exclude_management_event_sources
+    include_management_events        = var.event_selector_include_management_events
+    read_write_type                  = var.event_selector_read_write_type
 
-    data_resource {
-      type   = "AWS::S3::Object"
-      values = var.s3_object_level_logging_buckets
-    }
-  }
+    dynamic "data_resource" {
+      for_each = var.event_selector_data_resources
 
-  event_selector {
-    read_write_type           = "All"
-    include_management_events = true
-
-    data_resource {
-      type   = "AWS::DynamoDB::Table"
-      values = var.dynamodb_event_logging_tables
-    }
-
-    data_resource {
-      type   = "AWS::Lambda::Function"
-      values = var.lambda_invocation_logging_lambdas
+      content {
+        type   = data_resource.value.data_resource_type
+        values = data_resource.value.data_resource_values
+      }
     }
   }
 
